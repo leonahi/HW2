@@ -70,7 +70,7 @@ __kernel void matrixMultiply(__global float* A,\
 		             const uint Pdim)
 {
   int idx = get_global_id(0);
-  float A_private[1000];
+  float A_private[4000];
   float tmp;
    
   //printf("%d\n",idx); 
@@ -84,7 +84,7 @@ __kernel void matrixMultiply(__global float* A,\
       tmp = 0.0; 
       for(int k=0; k<Pdim; k++)
       {
-	tmp += A_private[k]*B[k*Mdim + j];
+	    tmp += A_private[k]*B[k*Mdim + j];
       }
       C[idx*Mdim + j] = tmp;
     }

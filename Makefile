@@ -19,15 +19,15 @@ EXEC = MatrixMulti
 .PHONY: acknowledge
 
 
-ifdef INTELOCL
- INC_DIRS = $(INTELOCL)/opencl/include
- LIB_DIRS = $(INTELOCL)/opencl/lib64
-else
-  ifdef AMDAPPSDKROOT
-	INC_DIRS = $(AMDAPPSDKROOT)/include
-	LIB_DIRS = $(AMDAPPSDKROOT)/lib/x86_64
-  endif
-endif
+#ifdef INTELOCL
+# INC_DIRS = $(INTELOCL)/opencl/include
+# LIB_DIRS = $(INTELOCL)/opencl/lib64
+#else
+#  ifdef AMDAPPSDKROOT
+INC_DIRS = $(AMDAPPSDKROOT)/include
+LIB_DIRS = $(AMDAPPSDKROOT)/lib/x86_64
+#  endif
+#endif
 
 all: $(OBJECTS) compile acknowledge
 

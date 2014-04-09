@@ -7,10 +7,10 @@
 
 using namespace std;
 
-#include "graph.hpp"
+//#include "graph.hpp"
 #include "error.hpp"
 
-#define ORDER 1000
+#define ORDER 4000
 
 int main(int argc, char* argv[])
 {
@@ -38,7 +38,6 @@ int main(int argc, char* argv[])
   
   clock_t start, end;
   
-  Graph net;
   cl_mem graph;
   
     
@@ -80,11 +79,12 @@ int main(int argc, char* argv[])
   
   for(int i=0; i<(ORDER*ORDER); i++)
   {
-    A[i] = 4.535;
-    B[i] = 6.335;
+    A[i] = 1;
+    B[i] = 1;
    // C[i] = 0;
   }
   
+  cout << "Memory allocation done..." << endl;
 //---------------------------------------------------------------------------------------  
 // Set up buffers   
 //---------------------------------------------------------------------------------------  
@@ -97,8 +97,8 @@ int main(int argc, char* argv[])
   c_out = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(float)*sizeC, NULL, &errNum);
   checkErr(errNum, "clCreateBuffer-(3)");
   
-  graph = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(net), NULL, &errNum);
-  checkErr(errNum, "clCreateBuffer-(4)");
+  //graph = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(net), NULL, &errNum);
+  //checkErr(errNum, "clCreateBuffer-(4)");
 
 //---------------------------------------------------------------------------------------  
 // Create program   
@@ -159,8 +159,6 @@ int main(int argc, char* argv[])
   errNum = clSetKernelArg(kernel, 5, sizeof(unsigned int), (void *)&Pdim);
   checkErr(errNum, "clSetKernelArg(matrixMultiply - arg(5))");
   
-  //errNum = clSetKernelArg(kernel, 6, sizeof(cl_mem), NULL);
-  //checkErr(errNum, "clSetKernelArg(matrixMultiply - arg(6))");
   
 //---------------------------------------------------------------------------------------  
 // Write input data - Warning Don't write to buffer without initializing matrices
@@ -174,6 +172,7 @@ int main(int argc, char* argv[])
 //---------------------------------------------------------------------------------------  
 // Enqueue kernel for execution
 //---------------------------------------------------------------------------------------  
+  cout << "Starting kernel for execution..." << endl;
   cl_event event;
   
   size_t globalSize = Ndim;
@@ -183,6 +182,7 @@ int main(int argc, char* argv[])
   
   clFinish(queue);
 
+  cout << "Kernel execution done..." << endl;
 //---------------------------------------------------------------------------------------  
 // Profiling data
 //---------------------------------------------------------------------------------------  
@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
   
   cl_ulong run_time = ev_end_time - ev_start_time;
   
-  cout<<"Run time : "<<run_time<<endl;
+  cout<<"Run time : "<< run_time << " nano sec" <<endl;
   
   
   
